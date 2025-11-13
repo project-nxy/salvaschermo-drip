@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Salvaschermo - The Drip</title>
+  <style>
+    :root{
+      --logo-w: 200px;
+      --logo-h: 150px;
+      --anim-duration: 12s; /* regola la velocità */
+    }
+
+    /* Fullscreen, no scroll, sfondo nero e cursore nascosto */
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    /* wrapper */
+    .screen {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    /* logo: posizione assoluta per animarlo su left/top, dimensione fissa */
+    .logo {
+      position: absolute;
+      width: var(--logo-w);
+      height: var(--logo-h);
+      left: calc((100vw - var(--logo-w)) / 2); /* inizio centrato */
+      top:  calc((100vh - var(--logo-h)) / 2);
+      pointer-events: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      will-change: left, top;
+      animation: dvdMove var(--anim-duration) linear infinite alternate;
+    }
+
+    /* Keyframes: visita gli angoli e rimbalza (alternate farà il ritorno inverso) */
+    @keyframes dvdMove {
+      0% {
+        left: calc((100vw - var(--logo-w)) / 2);
+        top:  calc((100vh - var(--logo-h)) / 2);
+      }
+      16% {
+        left: 0;
+        top: 0;
+      }
+      33% {
+        left: calc(100vw - var(--logo-w));
+        top: 0;
+      }
+      50% {
+        left: calc(100vw - var(--logo-w));
+        top: calc(100vh - var(--logo-h));
+      }
+      66% {
+        left: 0;
+        top: calc(100vh - var(--logo-h));
+      }
+      83% {
+        left: calc((100vw - var(--logo-w)) / 2);
+        top: calc((100vh - var(--logo-h)) / 2);
+      }
+      100% {
+        /* finisce su un lato; con alternate l'animazione torna indietro */
+        left: 0;
+        top: 0;
+      }
+    }
+
+    /* assicurati che l'immagine non venga ridimensionata dal browser */
+    img.logo { object-fit: contain; display: block; }
+
+    /* piccola regola per schermi molto piccoli */
+    @media (max-width: 220px) {
+      :root { --logo-w: 160px; --logo-h: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="screen" aria-hidden="true">
+    <!-- Metti il file logo.png (quello che hai caricato) nella stessa cartella di questo index.html -->
+    <img src="logo.png" alt="Logo" class="logo" width="200" height="150" />
+  </div>
+</body>
+</html>
